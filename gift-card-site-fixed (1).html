@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claim Your $750 Gift Card - Limited Time Offer</title>
+    <meta name="description" content="Claim your $750 gift card from Amazon, Cash App, PayPal, Sephora, or Wingstop. Limited time offer!">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            padding-top: 50px;
+            transition: background 0.6s ease;
+        }
+
+        body.amazon { background: linear-gradient(to bottom, #FFFFFF, #F7F9FC); }
+        body.cashapp { background: linear-gradient(to bottom, #FFFFFF, #F7FDF9); }
+        body.paypal { background: linear-gradient(to bottom, #FFFFFF, #F7FAFD); }
+        body.sephora { background: linear-gradient(to bottom, #FFFFFF, #FAFAFA); }
+        body.wingstop { background: linear-gradient(to bottom, #FFFFFF, #FDF7F7); }
+
+        .brand-selector {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 40px;
+            padding: 14px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0,0,0,0.05);
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .brand-btn {
+            padding: 10px 22px;
+            border-radius: 10px;
+            border: 1.5px solid #E8E8E8;
+            background: #FFFFFF;
+            color: #374151;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: capitalize;
+            letter-spacing: 0.3px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+
+        .brand-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .brand-btn.active {
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .brand-btn.active.amazon {
+            border: 2px solid #FF9900;
+            background: linear-gradient(135deg, #FF9900, #146EB4);
+            box-shadow: 0 4px 16px rgba(255, 153, 0, 0.3);
+        }
+
+        .brand-btn.active.cashapp {
+            border: 2px solid #00D632;
+            background: linear-gradient(135deg, #00D632, #00A326);
+            box-shadow: 0 4px 16px rgba(0, 214, 50, 0.3);
+        }
+
+        .brand-btn.active.paypal {
+            border: 2px solid #003087;
+            background: linear-gradient(135deg, #003087, #009CDE);
+            box-shadow: 0 4px 16px rgba(0, 48, 135, 0.3);
+        }
+
+        .brand-btn.active.sephora {
+            border: 2px solid #000000;
+            background: linear-gradient(135deg, #000000, #1a1a1a);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .brand-btn.active.wingstop {
+            border: 2px solid #D32F2F;
+            background: linear-gradient(135deg, #D32F2F, #B71C1C);
+            box-shadow: 0 4px 16px rgba(211, 47, 47, 0.3);
+        }
+
+        .success-banner {
+            background: white;
+            border-radius: 14px;
+            padding: 14px 26px;
+            margin-bottom: 28px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideDown 0.6s ease-out;
+            border: 1px solid rgba(0,0,0,0.04);
+            transition: opacity 0.4s ease;
+        }
+
+        .success-name {
+            font-size: 16px;
+            font-weight: 600;
+            transition: color 0.4s ease;
+        }
+
+        .success-name.amazon { color: #FF9900; }
+        .success-name.cashapp { color: #00D632; }
+        .success-name.paypal { color: #003087; }
+        .success-name.sephora { color: #000000; }
+        .success-name.wingstop { color: #D32F2F; }
+
+        .success-text {
+            font-size: 16px;
+            color: #6B7280;
+            font-weight: 500;
+        }
+
+        .main-card {
+            background: white;
+            border-radius: 24px;
+            max-width: 520px;
+            width: 100%;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            padding: 52px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-out 0.2s backwards;
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+
+        .card-top-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            transition: background 0.6s ease;
+        }
+
+        .card-top-bar.amazon { background: linear-gradient(135deg, #FF9900, #146EB4); }
+        .card-top-bar.cashapp { background: linear-gradient(135deg, #00D632, #00A326); }
+        .card-top-bar.paypal { background: linear-gradient(135deg, #003087, #009CDE); }
+        .card-top-bar.sephora { background: linear-gradient(135deg, #000000, #1a1a1a); }
+        .card-top-bar.wingstop { background: linear-gradient(135deg, #D32F2F, #B71C1C); }
+
+        .logo-container {
+            margin-bottom: 36px;
+            animation: scaleIn 0.5s ease-out 0.4s backwards;
+            transition: all 0.5s ease;
+        }
+
+        .logo {
+            display: none;
+        }
+
+        .logo.active {
+            display: block;
+        }
+
+        .amount {
+            font-size: 84px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            animation: bounceIn 0.6s ease-out 0.6s backwards;
+            transition: color 0.5s ease, text-shadow 0.5s ease;
+            letter-spacing: -2px;
+        }
+
+        .amount.amazon {
+            color: #FF9900;
+            text-shadow: 0 2px 12px rgba(255, 153, 0, 0.2);
+        }
+
+        .amount.cashapp {
+            color: #00D632;
+            text-shadow: 0 2px 12px rgba(0, 214, 50, 0.2);
+        }
+
+        .amount.paypal {
+            color: #003087;
+            text-shadow: 0 2px 12px rgba(0, 48, 135, 0.2);
+        }
+
+        .amount.sephora {
+            color: #000000;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .amount.wingstop {
+            color: #D32F2F;
+            text-shadow: 0 2px 12px rgba(211, 47, 47, 0.2);
+        }
+
+        .gift-label {
+            font-size: 15px;
+            font-weight: 600;
+            color: #9CA3AF;
+            letter-spacing: 1.5px;
+            margin-bottom: 28px;
+            text-transform: uppercase;
+        }
+
+        .timer {
+            background: linear-gradient(135deg, #FEF2F2, #FEE2E2);
+            border: 1.5px solid #FCA5A5;
+            border-radius: 12px;
+            padding: 12px 22px;
+            margin-bottom: 36px;
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .timer-text {
+            color: #DC2626;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .steps-container {
+            background: #F9FAFB;
+            border-radius: 16px;
+            padding: 30px 26px;
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 32px;
+            border: 1px solid #F3F4F6;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 22px;
+        }
+
+        .step:last-child {
+            margin-bottom: 0;
+        }
+
+        .step-number {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+            font-weight: 700;
+            flex-shrink: 0;
+            transition: background 0.5s ease, box-shadow 0.5s ease;
+        }
+
+        .step-number.amazon {
+            background: linear-gradient(135deg, #FF9900, #146EB4);
+            box-shadow: 0 3px 10px rgba(255, 153, 0, 0.3);
+        }
+
+        .step-number.cashapp {
+            background: linear-gradient(135deg, #00D632, #00A326);
+            box-shadow: 0 3px 10px rgba(0, 214, 50, 0.3);
+        }
+
+        .step-number.paypal {
+            background: linear-gradient(135deg, #003087, #009CDE);
+            box-shadow: 0 3px 10px rgba(0, 48, 135, 0.3);
+        }
+
+        .step-number.sephora {
+            background: linear-gradient(135deg, #000000, #1a1a1a);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .step-number.wingstop {
+            background: linear-gradient(135deg, #D32F2F, #B71C1C);
+            box-shadow: 0 3px 10px rgba(211, 47, 47, 0.3);
+        }
+
+        .step-text {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1F2937;
+            line-height: 1.5;
+        }
+
+        .cta-button {
+            color: white;
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            padding: 18px 48px;
+            border-radius: 14px;
+            border: none;
+            width: 100%;
+            max-width: 400px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeIn 0.5s ease-out 1.2s backwards;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .cta-button.amazon {
+            background: linear-gradient(135deg, #FF9900, #146EB4);
+            box-shadow: 0 4px 16px rgba(255, 153, 0, 0.35);
+        }
+
+        .cta-button.cashapp {
+            background: linear-gradient(135deg, #00D632, #00A326);
+            box-shadow: 0 4px 16px rgba(0, 214, 50, 0.35);
+        }
+
+        .cta-button.paypal {
+            background: linear-gradient(135deg, #003087, #009CDE);
+            box-shadow: 0 4px 16px rgba(0, 48, 135, 0.35);
+        }
+
+        .cta-button.sephora {
+            background: linear-gradient(135deg, #000000, #1a1a1a);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+        }
+
+        .cta-button.wingstop {
+            background: linear-gradient(135deg, #D32F2F, #B71C1C);
+            box-shadow: 0 4px 16px rgba(211, 47, 47, 0.35);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .cta-button.amazon:hover { box-shadow: 0 8px 24px rgba(255, 153, 0, 0.45); }
+        .cta-button.cashapp:hover { box-shadow: 0 8px 24px rgba(0, 214, 50, 0.45); }
+        .cta-button.paypal:hover { box-shadow: 0 8px 24px rgba(0, 48, 135, 0.45); }
+        .cta-button.sephora:hover { box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45); }
+        .cta-button.wingstop:hover { box-shadow: 0 8px 24px rgba(211, 47, 47, 0.45); }
+
+        .arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .cta-button:hover .arrow {
+            transform: translateX(4px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #9CA3AF;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.85);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.015);
+            }
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding-top: 30px;
+            }
+
+            .main-card {
+                padding: 40px 24px;
+            }
+
+            .amount {
+                font-size: 64px;
+            }
+
+            .brand-selector {
+                padding: 12px 16px;
+            }
+
+            .brand-btn {
+                padding: 8px 16px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body class="amazon">
+    <!-- Brand Selector -->
+    <div class="brand-selector">
+        <button class="brand-btn active amazon" onclick="switchBrand('amazon')">Amazon</button>
+        <button class="brand-btn cashapp" onclick="switchBrand('cashapp')">Cash App</button>
+        <button class="brand-btn paypal" onclick="switchBrand('paypal')">PayPal</button>
+        <button class="brand-btn sephora" onclick="switchBrand('sephora')">Sephora</button>
+        <button class="brand-btn wingstop" onclick="switchBrand('wingstop')">Wingstop</button>
+    </div>
+
+    <!-- Success Banner -->
+    <div class="success-banner" id="successBanner">
+        <span style="font-size: 22px;">🎉</span>
+        <span class="success-name amazon" id="successName">Emily R.</span>
+        <span class="success-text" id="successAmount">claimed $750!</span>
+    </div>
+
+    <!-- Main Card -->
+    <div class="main-card">
+        <div class="card-top-bar amazon" id="topBar"></div>
+
+        <!-- Logos -->
+        <div class="logo-container">
+            <svg class="logo active" id="logo-amazon" width="200" height="70" viewBox="0 0 200 70">
+                <text x="50%" y="45" text-anchor="middle" fill="#232F3E" font-size="48" font-weight="700" font-family="'Amazon Ember', Arial, sans-serif">
+                    amazon
+                </text>
+                <path d="M80 55 Q130 51 155 55" stroke="#FF9900" stroke-width="5" fill="none" stroke-linecap="round"/>
+                <circle cx="160" cy="53" r="2.5" fill="#FF9900"/>
+            </svg>
+
+            <svg class="logo" id="logo-cashapp" width="200" height="70" viewBox="0 0 200 70">
+                <rect x="50" y="10" width="100" height="50" rx="10" fill="#00D632"/>
+                <text x="50%" y="48" text-anchor="middle" fill="white" font-size="38" font-weight="900" font-family="Arial Black, sans-serif">
+                    $
+                </text>
+            </svg>
+
+            <svg class="logo" id="logo-paypal" width="220" height="70" viewBox="0 0 220 70">
+                <text x="35%" y="42" text-anchor="middle" fill="#003087" font-size="44" font-weight="700" font-family="Verdana, sans-serif">
+                    Pay
+                </text>
+                <text x="65%" y="42" text-anchor="middle" fill="#009CDE" font-size="44" font-weight="700" font-family="Verdana, sans-serif">
+                    Pal
+                </text>
+            </svg>
+
+            <svg class="logo" id="logo-sephora" width="240" height="70" viewBox="0 0 240 70">
+                <text x="50%" y="42" text-anchor="middle" fill="#000000" font-size="42" font-weight="700" font-family="'Futura', 'Avant Garde', sans-serif" letter-spacing="3">
+                    SEPHORA
+                </text>
+                <rect x="50" y="50" width="140" height="2.5" fill="#000000"/>
+            </svg>
+
+            <svg class="logo" id="logo-wingstop" width="240" height="70" viewBox="0 0 240 70">
+                <text x="50%" y="34" text-anchor="middle" fill="#D32F2F" font-size="42" font-weight="900" font-family="Impact, sans-serif" letter-spacing="2">
+                    WINGSTOP
+                </text>
+                <text x="50%" y="52" text-anchor="middle" fill="#8B0000" font-size="11" font-weight="700" font-family="Arial, sans-serif" letter-spacing="4">
+                    FLAVOR YOU CAN TASTE
+                </text>
+            </svg>
+        </div>
+
+        <!-- Amount -->
+        <div class="amount amazon" id="amount">$750</div>
+
+        <!-- Gift Card Label -->
+        <div class="gift-label" id="giftLabel">Amazon Gift Card</div>
+
+        <!-- Timer -->
+        <div class="timer">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2.5">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 6v6l4 2" />
+            </svg>
+            <span class="timer-text">Offer expires in <span id="countdown">14:57</span></span>
+        </div>
+
+        <!-- Steps -->
+        <div class="steps-container">
+            <div class="step">
+                <div class="step-number amazon">1</div>
+                <span class="step-text">Click The Button Below</span>
+            </div>
+            <div class="step">
+                <div class="step-number amazon">2</div>
+                <span class="step-text">Enter Your Basic Info</span>
+            </div>
+            <div class="step">
+                <div class="step-number amazon">3</div>
+                <span class="step-text">Complete Required Offers</span>
+            </div>
+            <div class="step">
+                <div class="step-number amazon">4</div>
+                <span class="step-text">Claim Your Reward</span>
+            </div>
+        </div>
+
+        <!-- CTA Button -->
+        <a href="https://trkfy.org/aff_c?offer_id=1376&aff_id=162791" target="_blank" rel="noopener noreferrer" class="cta-button amazon" id="ctaButton">
+            <span>Claim Your Gift Card</span>
+            <svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </a>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>Secure & Verified Offers</p>
+    </div>
+
+    <script>
+        const brands = {
+            amazon: {
+                name: 'Amazon',
+                link: 'https://trkfy.org/aff_c?offer_id=1376&aff_id=162791'
+            },
+            cashapp: {
+                name: 'Cash App',
+                link: 'https://trkfy.org/aff_c?offer_id=1595&aff_id=162791'
+            },
+            paypal: {
+                name: 'PayPal',
+                link: 'https://gloffers.org/aff_c?offer_id=1548&aff_id=162791'
+            },
+            sephora: {
+                name: 'Sephora',
+                link: 'https://gloffers.org/aff_c?offer_id=346&aff_id=162791'
+            },
+            wingstop: {
+                name: 'Wingstop',
+                link: 'https://trkfy.org/aff_c?offer_id=893&aff_id=162791'
+            }
+        };
+
+        // Rotating names and amounts for success banner
+        const claimRotations = [
+            { name: 'Emily R.', amount: '$750' },
+            { name: 'Michael T.', amount: '$500' },
+            { name: 'Sarah K.', amount: '$750' },
+            { name: 'David L.', amount: '$1000' },
+            { name: 'Jessica M.', amount: '$500' },
+            { name: 'James P.', amount: '$750' },
+            { name: 'Amanda S.', amount: '$1000' },
+            { name: 'Chris W.', amount: '$500' }
+        ];
+
+        let currentClaimIndex = 0;
+        let currentBrand = 'amazon';
+
+        function switchBrand(brand) {
+            currentBrand = brand;
+            
+            // Update body class
+            document.body.className = brand;
+            
+            // Update brand buttons
+            document.querySelectorAll('.brand-btn').forEach(btn => {
+                btn.classList.remove('active', 'amazon', 'cashapp', 'paypal', 'sephora', 'wingstop');
+            });
+            const activeBtn = document.querySelector(`.brand-btn.${brand}`);
+            if (activeBtn) {
+                activeBtn.classList.add('active', brand);
+            }
+            
+            // Update success name color
+            const successName = document.getElementById('successName');
+            if (successName) {
+                successName.className = `success-name ${brand}`;
+            }
+            
+            // Update top bar
+            const topBar = document.getElementById('topBar');
+            if (topBar) {
+                topBar.className = `card-top-bar ${brand}`;
+            }
+            
+            // Update logo
+            document.querySelectorAll('.logo').forEach(logo => logo.classList.remove('active'));
+            const activeLogo = document.getElementById(`logo-${brand}`);
+            if (activeLogo) {
+                activeLogo.classList.add('active');
+            }
+            
+            // Update amount
+            const amount = document.getElementById('amount');
+            if (amount) {
+                amount.className = `amount ${brand}`;
+            }
+            
+            // Update gift label
+            const giftLabel = document.getElementById('giftLabel');
+            if (giftLabel) {
+                giftLabel.textContent = `${brands[brand].name} Gift Card`;
+            }
+            
+            // Update step numbers
+            document.querySelectorAll('.step-number').forEach(num => {
+                num.className = `step-number ${brand}`;
+            });
+            
+            // Update CTA button
+            const ctaButton = document.getElementById('ctaButton');
+            if (ctaButton) {
+                ctaButton.className = `cta-button ${brand}`;
+                ctaButton.href = brands[brand].link;
+            }
+        }
+
+        // Rotate success banner claims
+        function rotateClaim() {
+            const successBanner = document.getElementById('successBanner');
+            const successName = document.getElementById('successName');
+            const successAmount = document.getElementById('successAmount');
+            
+            if (!successBanner || !successName || !successAmount) return;
+            
+            // Fade out
+            successBanner.style.opacity = '0';
+            
+            setTimeout(() => {
+                // Update content
+                currentClaimIndex = (currentClaimIndex + 1) % claimRotations.length;
+                const claim = claimRotations[currentClaimIndex];
+                
+                successName.textContent = claim.name;
+                successAmount.textContent = `claimed ${claim.amount}!`;
+                
+                // Fade in
+                successBanner.style.opacity = '1';
+            }, 400);
+        }
+
+        // Start rotating claims every 7-9 seconds (random for more natural feel)
+        function scheduleNextRotation() {
+            const delay = Math.random() * 2000 + 7000; // 7-9 seconds
+            setTimeout(() => {
+                rotateClaim();
+                scheduleNextRotation();
+            }, delay);
+        }
+        
+        // Initialize rotation after page loads
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', scheduleNextRotation);
+        } else {
+            scheduleNextRotation();
+        }
+
+        // Countdown timer
+        let timeLeft = 897; // 14:57 in seconds
+
+        function updateCountdown() {
+            const countdownEl = document.getElementById('countdown');
+            if (!countdownEl) return;
+            
+            const mins = Math.floor(timeLeft / 60);
+            const secs = timeLeft % 60;
+            countdownEl.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+            
+            if (timeLeft > 0) {
+                timeLeft--;
+            }
+        }
+
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
